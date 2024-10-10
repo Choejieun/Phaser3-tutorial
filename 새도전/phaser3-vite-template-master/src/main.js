@@ -12,7 +12,7 @@ const config = {
 		/*phaser는 phaser에서 만든 자체 물리엔진인 arcade와 
 		상용화 되어있는 matter라는 2개의 물리엔진을 지원한다.*/
 		arcade: {
-			gravity: { y: 200 },
+			gravity: { y: 800 },
 		},
 	},
 	scene: [GameScene],
