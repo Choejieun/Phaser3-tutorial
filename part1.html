@@ -19,9 +19,9 @@
         width: 800,
         height: 600,
         scene: {
-            preload: preload,
-            create: create,
-            update: update
+            preload: preload,/* scene 생성 전 호출, assets 불러오기*/
+            create: create,/* scene 생성 시 1회 호출, game object 배치*/
+            update: update/*  scene 실행 중 frame 마다 호출 함수, 기본 60fps*/
         }
     };
 
@@ -29,10 +29,20 @@
 
     function preload ()
     {
+        /*this.load.image('매개변수1(이름)', '매개변수2(경로)');*/
+        this.load.image('sky', 'assets/sky.png');
+        this.load.image('ground', 'assets/platform.png');
+        this.load.image('star', 'assets/star.png');
+        this.load.image('bomb', 'assets/bomb.png');
+        this.load.spritesheet('dude', 
+            'assets/dude.png',
+            { frameWidth: 32, frameHeight: 48 }
+        );
     }
 
     function create ()
     {
+        this.add.image(400, 300, 'sky');
     }
 
     function update ()
