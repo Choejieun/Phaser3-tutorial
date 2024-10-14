@@ -36,11 +36,13 @@ export class GameScene extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
             frameRate: 10,
             repeat: -1
+            /*앞서 설정한 frame 사이즈를 기준으로 등분하여 0~3번 프레임을 반복*/
         });
         this.anims.create({
             key: 'turn',
             frames: [ { key: 'dude', frame: 4 } ],
-            frameRate: 20
+            frameRate: 200
+            /*고정 프레임으로 repeat 설정이 없음*/
         });
         this.anims.create({
             key: 'right',
@@ -92,6 +94,18 @@ export class GameScene extends Phaser.Scene {
             .getByName("scoreText")
             .setText("Score: " + this.data.get("score"));
 
+            const x =
+            player.x < 400
+                ? Phaser.Math.Between(400, 800)/* 400에서 800 사이의 무작위 값*/
+                : Phaser.Math.Between(0, 400);/* 0에서 400 사이의 무작위 값*/
+            const bombs = this.data.get("bombs");
+            const bomb = bombs.create(x, 16, "bomb");
+            bomb.setBounce(1); /*완벽하게 튕겨서 같은 속도로 반사*/
+            bomb.setCollideWorldBounds(true);/*화면의 경계와 충돌*/
+            bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+            /*  x축 속도를 -200에서 200 사이의 무작위 값
+                항상 20의 속도로 아래 방향으로 움직임*/
+
         /*화면에 별이 없다면 별이 자동 생성됨*/
         const stars = this.data.get("stars");
         if (stars.countActive(true)===0){
@@ -99,15 +113,6 @@ export class GameScene extends Phaser.Scene {
                 child.enableBody(true, child.x, 0, true, true);
             });
         
-            const x =
-            player.x < 400
-                ? Phaser.Math.Between(400, 800)
-                : Phaser.Math.Between(0, 400);
-            const bombs = this.data.get("bombs");
-            const bomb = bombs.create(x, 16, "bomb");
-            bomb.setBounce(1);
-            bomb.setCollideWorldBounds(true);
-            bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
         }
         }
 
